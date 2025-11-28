@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shayan - Breakout Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>Neon Breakout!</h1>
+    <button id="rules-btn" class="btn rules-btn">Rules</button>
+    <div id="rules" class="rules">
+      <h2>How To Play</h2>
+      <p>
+        Drag your finger/mouse or use arrows to move the paddle.<br /><br />
+        Bounce the ball to destroy all neon bricks!<br /><br />
+        Clear a level => Ball speeds up.<br />
+        Miss the ball => Score & level reset.
+      </p>
+      <button id="close-btn" class="btn close-btn">Play!</button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+  </body>
 </html>
