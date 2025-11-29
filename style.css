@@ -1,7 +1,12 @@
 :root {
   --bg-primary: #0d001a;
   --bg-secondary: #1a0033;
-  --bg-gradient: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #2a0044 100%);
+  --bg-gradient: linear-gradient(
+    135deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 50%,
+    #2a0044 100%
+  );
   --canvas-bg: #000;
   --neon-purple: #bb86fc;
   --neon-pink: #ff69b4;
@@ -21,7 +26,7 @@
 
 body {
   background: var(--bg-gradient);
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,4 +34,62 @@ body {
   min-height: 100vh;
   overflow: hidden;
   color: var(--text-primary);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan),
+    0 0 30px var(--neon-purple), 0 0 40px var(--neon-pink);
+  letter-spacing: 0.1em;
+}
+
+canvas {
+  background: var(--canvas-bg);
+  display: block;
+  border-radius: 20px;
+  border: 3px solid var(--neon-purple);
+  box-shadow: 0 0 50px var(--glow-purple), 0 0 100px var(--glow-pink),
+    inset 0 0 50px rgba(187, 134, 252, 0.1);
+  max-width: 95vw;
+  max-height: 75vh;
+  touch-action: none;
+  cursor: grab;
+  transition: all 0.3s ease;
+}
+h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan),
+    0 0 30px var(--neon-purple), 0 0 40px var(--neon-pink);
+  letter-spacing: 0.1em;
+}
+
+canvas {
+  background: var(--canvas-bg);
+  display: block;
+  border-radius: 20px;
+  border: 3px solid var(--neon-purple);
+  box-shadow: 0 0 50px var(--glow-purple), 0 0 100px var(--glow-pink),
+    inset 0 0 50px rgba(187, 134, 252, 0.1);
+  max-width: 95vw;
+  max-height: 75vh;
+  touch-action: none;
+  cursor: grab;
+  transition: all 0.3s ease;
+}
+
+canvas:active {
+  cursor: grabbing;
+}
+
+.btn {
+  position: relative;
+  cursor: pointer;
+  border: none;
+  padding: 1rem 2rem;
 }
