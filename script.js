@@ -106,3 +106,43 @@ let brickInfo = {
 };
 
 let bricks = [];
+
+// Build Bricks
+function buildBricks() {
+  const scaleX = canvas.width / 900;
+  const scaleY = canvas.height / 675;
+  brickInfo.w = 72 * scaleX;
+  brickInfo.h = 24 * scaleY;
+  brickInfo.padding = 12 * scaleX;
+  brickInfo.offsetX = 35 * scaleX;
+  brickInfo.offsetY = 70 * scaleY;
+
+  bricks = [];
+  for (let i = 0; i < brickRowCount; i++) {
+    bricks[i] = [];
+    for (let j = 0; j < brickColumnCount; j++) {
+      const x = i * (brickInfo.w + brickInfo.padding) + brickInfo.offsetX;
+      const y = j * (brickInfo.h + brickInfo.padding) + brickInfo.offsetY;
+      bricks[i][j] = {
+        x,
+        y,
+        w: brickInfo.w,
+        h: brickInfo.h,
+        visible: true,
+        color: neonColors[j % neonColors.length],
+      };
+    }
+  }
+}
+
+// Drawing with Glows
+function setGlow(color, blur = 25) {
+  ctx.shadowColor = color;
+  ctx.shadowBlur = blur;
+}
+
+function resetGlow() {
+  ctx.shadowBlur = 0;
+}
+
+function drawBall() {}
