@@ -446,3 +446,32 @@ canvas.addEventListener(
   },
   { passive: false }
 );
+
+document.addEventListener("keydown", (e) => {
+  initAudio();
+  if (e.key === "ArrowRight" || e.key === "Right") paddle.dx = paddle.speed;
+  if (e.key === "ArrowLeft" || e.key === "Left") paddle.dx = -paddle.speed;
+});
+document.addEventListener("keyup", (e) => {
+  if (["ArrowLeft", "ArrowRight", "Left", "Right"].includes(e.key)) {
+    paddle.dx = 0;
+  }
+});
+
+rulesButton.addEventListener("click", () => rules.classList.add("show"));
+closeButton.addEventListener("click", () => rules.classList.remove("show"));
+rules.addEventListener("click", (e) => {
+  if (e.target === rules) rules.classList.remove("show");
+});
+
+function update() {
+  movePaddle();
+  moveBall();
+  updateParticles();
+  draw();
+  requestAnimationFrame(update);
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+update();
