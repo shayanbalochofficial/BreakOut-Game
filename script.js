@@ -41,3 +41,23 @@ function playSound(frequency, duration = 0.1, type = "sine", volume = 0.3) {
   osc.start(audioCtx.currentTime);
   osc.stop(audioCtx.currentTime + duration);
 }
+
+// Particles andd Trail
+let particles = [];
+let ballTrail = [];
+
+function resizeCanvas() {
+  const containerWidth = Math.min(900, window.innerWidth * 0.95);
+  const heightRatio = 0.75;
+  const desiredWidth = containerWidth;
+  const desiredHeight = desiredWidth * heightRatio;
+
+  canvas.width = desiredWidth;
+  canvas.height = desiredHeight;
+  canvas.style.width = desiredWidth + "px";
+  canvas.style.height = desiredHeight + "px";
+
+  const scale = canvas.width / 900;
+
+  resetGame();
+}
