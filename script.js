@@ -367,3 +367,82 @@ function moveBall() {
     resetGame();
   }
 }
+
+function increaseScore() {
+  score++;
+  level = Math.floor(score / totalBricksPerLevel) + 1;
+
+  let bricksLeft = 0;
+  bricks.forEach((column) =>
+    column.forEach((brick) => {
+      if (brick.visible) bricksLeft++;
+    })
+  );
+  if (bricksLeft === 0) {
+    playSound(880, 0.3, "sine");
+    showAllBricks();
+    ball.velocity += 1.2;
+  }
+}
+
+function showAllBricks() {
+  bricks.forEach((column) => column.forEach((brick) => (brick.visible = true)));
+}
+
+function resetGame() {
+  score = 0;
+  level = 1;
+  ball.reset();
+  paddle.reset();
+  buildBricks();
+  particles = [];
+  ballTrail = [];
+  ball.velocity = 5 * (canvas.width / 900);
+}
+
+let isDragging = false;
+
+function handleInput(clientX) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const targetX = (clientX - rect.left) * scaleX - paddle.w / 2;
+  paddle.x = Math.max(0, Math.min(canvas.width - paddle.w, targetX));
+}
+
+canvas.addEventListener("mousedown", (e) => {
+  initAudio();
+  isDragging = true;
+  handleInput(e.clientX);
+});
+canvas.addEventListener("mousemove", (e) => {
+  if (isDragging) handleInput(e.clientX);
+});
+canvas.addEventListener("mouseup", () => (isDragging = false));
+canvas.addEventListener("mouseleave", () => (isDragging = false));
+
+canvas.addEventListener(
+  "touchstart",
+  (e) => {
+    initAudio();
+    e.preventDefault();
+    isDragging = true;
+    handleInput(e.touches[0].clientX);
+  },
+  { passive: false }
+);
+canvas.addEventListener(
+  "touchmove",
+  (e) => {
+    e.preventDefault();
+    handleInput(e.touches[0].clientX);
+  },
+  { passive: false }
+);
+canvas.addEventListener(
+  "touchend",
+  (e) => {
+    e.preventDefault();
+    isDragging = false;
+  },
+  { passive: false }
+);
