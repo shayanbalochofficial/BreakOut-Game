@@ -145,4 +145,89 @@ function resetGlow() {
   ctx.shadowBlur = 0;
 }
 
-function drawBall() {}
+function drawBall() {
+  ballTrail.forEach((pos, i) => {
+    const alpha = (i / ballTrail.length) * 0.4;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    setGlow("#39FF14", 15 * alpha);
+    ctx.beginPath();
+    ctx.arc(
+      pos.x,
+      pos.y,
+      ball.size * (i / ballTrail.length + 0.3),
+      0,
+      Math.PI * 2
+    );
+    ctx.fillStyle = "#39FF14";
+    ctx.fill();
+    ctx.restore();
+  });
+
+  const gradient = ctx.createRadialGradient(
+    ball.x - ball.size * 0.4,
+    ball.y - ball.size * 0.4,
+    0,
+    ball.x,
+    ball.y,
+    ball.size
+  );
+  gradient.addColorStop(0, "#FFF23F");
+  gradient.addColorStop(0.6, "#39FF14");
+  gradient.addColorStop(1, "#00F5FF");
+
+  setGlow("#39FF14", 30);
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
+  ctx.fillStyle = gradient;
+  ctx.fill();
+  resetGlow();
+}
+
+function drawPaddle() {
+  const gradient = ctx.createLinearGradient(
+    paddle.x,
+    paddle.y,
+    paddle.x + paddle.w,
+    paddle.y + paddle.h
+  );
+  gradient.addColorStop(0, "#BB86FC");
+  gradient.addColorStop(0.5, "#FF69B4");
+  gradient.addColorStop(1, "#8B00FF");
+
+  setGlow("#BB86FC", 25);
+  ctx.beginPath();
+  ctx.rect(paddle.x, paddle.y, paddle.w, paddle.h);
+  ctx.fillStyle = gradient;
+  ctx.fill();
+  resetGlow();
+
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "#00F5FF";
+  ctx.shadowBlur = 15;
+  ctx.shadowColor = "#00F5FF";
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+}
+
+function drawBricks() {
+  bricks.forEach((column) => {
+    column.forEach((brick) => {
+      if (brick.visible) {
+        setGlow(brick.color, 20);
+        ctx.beginPath();
+        ctx.rect(brick.x, brick.y, brick.w, brick.h);
+        ctx.fillStyle = brick.color;
+        ctx.fill();
+        resetGlow();
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "#FFF";
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#FFF";
+        ctx.strokeRect(brick.x + 1, brick.y + 1, brick.w - 2, brick.h - 2);
+        ctx.shadowBlur = 0;
+      }
+    });
+  });
+}
