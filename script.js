@@ -231,3 +231,64 @@ function drawBricks() {
     });
   });
 }
+
+function drawUI() {
+  const scale = canvas.width / 900;
+  const fontSize = Math.max(22 * scale, 20);
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+
+  setGlow("#00F5FF", 20);
+  ctx.font = `800 ${fontSize}px Orbitron, monospace`;
+  ctx.fillStyle = "#00F5FF";
+  ctx.fillText(`SCORE ${score.toLocaleString()}`, canvas.width - 30, 45);
+
+  ctx.font = `700 ${fontSize * 0.85}px Orbitron, monospace`;
+  ctx.fillStyle = "#FF69B4";
+  setGlow("#FF69B4", 15);
+  ctx.fillText(`BEST ${highScore.toLocaleString()}`, canvas.width - 30, 75);
+
+  ctx.fillStyle = "#39FF14";
+  setGlow("#39FF14", 15);
+  ctx.font = `700 ${fontSize * 0.85}px Orbitron, monospace`;
+  ctx.fillText(`LEVEL ${level}`, canvas.width - 30, 105);
+
+  ctx.textAlign = "left";
+  resetGlow();
+}
+
+function draw() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawBricks();
+  drawBall();
+  drawPaddle();
+  drawUI();
+  drawParticles();
+}
+
+function drawParticles() {
+  particles.forEach((p, i) => {
+    ctx.save();
+    ctx.globalAlpha = p.life;
+    setGlow(p.color, 15 * p.life);
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 4 * p.life, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    ctx.restore();
+  });
+}
+
+function updateParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.15;
+    p.life -= 0.025;
+    if (p.life <= 0) {
+      particles.splice(i, 1);
+    }
+  }
+}
