@@ -92,4 +92,47 @@ canvas:active {
   cursor: pointer;
   border: none;
   padding: 1rem 2rem;
+  background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+  color: #fff;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 20px var(--glow-purple), 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 30px var(--glow-pink),
+    0 0 50px var(--neon-cyan);
+}
+
+.btn:active {
+  transform: scale(0.97) translateY(-1px);
+}
+
+/* faiz bane haha */
