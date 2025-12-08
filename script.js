@@ -292,3 +292,78 @@ function updateParticles() {
     }
   }
 }
+
+function movePaddle() {
+  paddle.x += paddle.dx;
+  if (paddle.x < 0) paddle.x = 0;
+  if (paddle.x + paddle.w > canvas.width) paddle.x = canvas.width - paddle.w;
+}
+
+function moveBall() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  ball.velocity += 0.008;
+  if (ball.velocity > 18) ball.velocity = 18;
+
+  if (ball.x + ball.size > canvas.width || ball.x - ball.size < 0) {
+    ball.dx *= -1;
+    playSound(350 + Math.random() * 100, 0.08, "square", 0.2);
+  }
+  if (ball.y - ball.size < 0) {
+    ball.dy *= -1;
+    playSound(450, 0.08);
+  }
+
+  if (
+    ball.x > paddle.x &&
+    ball.x < paddle.x + paddle.w &&
+    ball.y + ball.size > paddle.y &&
+    ball.y < paddle.y + paddle.h
+  ) {
+    ball.dy = -ball.velocity;
+    const hitPos = (ball.x - (paddle.x + paddle.w / 2)) / (paddle.w / 2);
+    ball.dx = ball.velocity * hitPos * 1.4;
+    playSound(440 + Math.random() * 200, 0.12, "sawtooth", 0.25);
+  }
+
+  bricks.forEach((column) => {
+    column.forEach((brick) => {
+      if (
+        brick.visible &&
+        ball.x - ball.size < brick.x + brick.w &&
+        ball.x + ball.size > brick.x &&
+        ball.y - ball.size < brick.y + brick.h &&
+        ball.y + ball.size > brick.y
+      ) {
+        ball.dy *= -1;
+        brick.visible = false;
+        increaseScore();
+        playSound(600 + Math.random() * 300, 0.06, "sine", 0.4);
+
+        for (let k = 0; k < 12; k++) {
+          particles.push({
+            x: brick.x + brick.w / 2,
+            y: brick.y + brick.h / 2,
+            vx: (Math.random() - 0.5) * 12,
+            vy: (Math.random() - 0.5) * 8 - 2,
+            life: 1,
+            color: brick.color,
+          });
+        }
+      }
+    });
+  });
+
+  ballTrail.push({ x: ball.x, y: ball.y });
+  if (ballTrail.length > 18) ballTrail.shift();
+
+  if (ball.y + ball.size > canvas.height) {
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem("neonBreakoutHS", highScore.toString());
+    }
+    playSound(180, 0.8, "sawtooth", 0.5);
+    resetGame();
+  }
+}
