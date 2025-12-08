@@ -61,3 +61,48 @@ function resizeCanvas() {
 
   resetGame();
 }
+
+// Game Objects wohooo
+const ball = {
+  x: 0,
+  y: 0,
+  size: 0,
+  velocity: 0,
+  dx: 0,
+  dy: 0,
+  reset() {
+    const scale = canvas.width / 900;
+    this.size = 12 * scale;
+    this.velocity = 5 * scale;
+    this.x = canvas.width / 2;
+    this.y = canvas.height / 2;
+    this.dx = this.velocity * (Math.random() < 0.5 ? -1 : 1);
+    this.dy = -this.velocity;
+  },
+};
+
+const paddle = {
+  x: 0,
+  y: 0,
+  w: 0,
+  h: 0,
+  speed: 0,
+  dx: 0,
+  reset() {
+    const scale = canvas.width / 900;
+    this.w = 100 * scale;
+    this.h = 16 * scale;
+    this.speed = 9 * scale;
+    this.x = canvas.width / 2 - this.w / 2;
+    this.y = canvas.height - 40 * scale;
+    this.dx = 0;
+  },
+};
+
+let brickInfo = {
+  padding: 0,
+  offsetX: 0,
+  offsetY: 0,
+};
+
+let bricks = [];
